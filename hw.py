@@ -108,8 +108,9 @@ for r in range(1, rows+1):
         letters += chr(65+j)
     print(letters)
 
-
+# -------------------------
 # If-Logic & Match-Case
+# -------------------------
 
 # 1. Grade
 marks = int(input("Enter marks: "))
@@ -122,93 +123,71 @@ match marks:
 
 # 2. FizzBuzz
 for i in range(1, 51):
-    if i % 35 == 0:
-        print("FizzBuzz")
-    elif i % 5 == 0:
-        print("Fizz")
-    elif i % 7 == 0:
-        print("Buzz")
-    else:
-        print(i)
+    if i % 35 == 0: print("FizzBuzz")
+    elif i % 5 == 0: print("Fizz")
+    elif i % 7 == 0: print("Buzz")
+    else: print(i)
 
 # 3. Calculator
-x = int(input("Enter first number: "))
-y = int(input("Enter second number: "))
+x = int(input("Enter first: "))
+y = int(input("Enter second: "))
 op = input("Enter operator: ")
 match op:
     case "+": print(x+y)
     case "-": print(x-y)
     case "*": print(x*y)
-    case "/": print(x/y if y != 0 else "Division by zero not allowed")
-    case _: print("Unknown operation")
+    case "/": print(x/y if y!=0 else "Div by zero not allowed")
+    case _: print("Invalid operator")
 
 # 4. Leap year
 yr = int(input("Enter year: "))
-if (yr % 400 == 0) or (yr % 100 != 0 and yr % 4 == 0):
-    print("Leap Year")
-else:
-    print("Not Leap Year")
+if (yr % 400 == 0) or (yr % 100 != 0 and yr % 4 == 0): print("Leap Year")
+else: print("Not Leap Year")
 
-# 5. Identify character
-ch = input("Enter a character: ")
+# 5. Identify char
+ch = input("Enter char: ")
 if ch.isalpha():
-    if ch.lower() in "aeiou":
-        print("Vowel")
-    else:
-        print("Consonant")
-elif ch.isdigit():
-    print("Digit")
-else:
-    print("Special Character")
+    if ch.lower() in "aeiou": print("Vowel")
+    else: print("Consonant")
+elif ch.isdigit(): print("Digit")
+else: print("Special Character")
+
 
 # -------------------------
 # Functions
 # -------------------------
 
 # 1. GCD & LCM
-def gcd_val(x, y):
-    while y != 0:
-        x, y = y, x % y
-    return x
+def gcd(a,b):
+    while b: a,b = b,a%b
+    return a
+def lcm(a,b): return (a*b)//gcd(a,b)
+print("GCD:", gcd(12,18))
+print("LCM:", lcm(12,18))
 
-def lcm_val(x, y):
-    return (x * y) // gcd_val(x, y)
-
-print("GCD:", gcd_val(12, 18))
-print("LCM:", lcm_val(12, 18))
-
-# 2. Second largest element
-numbers = [10, 20, 4, 45, 99]
-max1, max2 = float("-inf"), float("-inf")
-for v in numbers:
-    if v > max1:
-        max2, max1 = max1, v
-    elif v > max2 and v != max1:
-        max2 = v
-print("Second largest:", max2)
+# 2. Second largest
+nums = [10,20,4,45,99]
+m1,m2 = float("-inf"),float("-inf")
+for n in nums:
+    if n>m1: m1,m2 = n,m1
+    elif n>m2 and n!=m1: m2=n
+print("Second largest:",m2)
 
 # 3. Palindrome string
-text = "Never Odd Or Even"
-formatted = "".join(ch.lower() for ch in text if ch != " ")
-if formatted == formatted[::-1]:
-    print("Palindrome")
-else:
-    print("Not Palindrome")
+txt = "Never Odd Or Even"
+s = "".join(c.lower() for c in txt if c!=" ")
+print("Palindrome" if s==s[::-1] else "Not Palindrome")
 
 # 4. Multiplication tables
-upto = 5
-for n in range(1, upto+1):
-    for k in range(1, 11):
-        print(f"{n} x {k} = {n*k}")
+for n in range(1,6):
+    for k in range(1,11): print(f"{n} x {k} = {n*k}")
     print()
 
 # 5. Recursive digit sum
-def digit_sum(x):
-    if x == 0:
-        return 0
-    return (x % 10) + digit_sum(x // 10)
-
-print(digit_sum(1234))
+def dsum(x):
+    if x==0: return 0
+    return (x%10)+dsum(x//10)
+print(dsum(1234))
 
 
 # -------------------------
@@ -216,49 +195,37 @@ print(digit_sum(1234))
 # -------------------------
 
 # 1. All permutations
-def permutations(word, built=""):
-    if len(word) == 0:
-        print(built)
-        return
-    for idx in range(len(word)):
-        permutations(word[:idx] + word[idx+1:], built + word[idx])
-
-permutations("ABC")
+def perm(word,cur=""):
+    if not word: print(cur); return
+    for i in range(len(word)): perm(word[:i]+word[i+1:],cur+word[i])
+perm("ABC")
 
 # 2. Longest palindromic substring
-def longest_pal(s):
-    best = ""
+def longpal(s):
+    best=""
     for i in range(len(s)):
-        for j in range(i, len(s)):
-            part = s[i:j+1]
-            if part == part[::-1] and len(part) > len(best):
-                best = part
+        for j in range(i,len(s)):
+            part=s[i:j+1]
+            if part==part[::-1] and len(part)>len(best): best=part
     return best
-
-print(longest_pal("babad"))
+print(longpal("babad"))
 
 # 3. Word frequency
-sample = "This is a test this is only a Test"
-word_list = sample.lower().split()
-counts = {}
-for w in word_list:
-    counts[w] = counts.get(w, 0) + 1
-print(counts)
+txt="This is a test this is only a Test"
+words=txt.lower().split()
+freq={}
+for w in words: freq[w]=freq.get(w,0)+1
+print(freq)
 
-# 4. Anagram check
-a, b = "listen", "silent"
-if sorted(a) == sorted(b):
-    print("Anagram")
-else:
-    print("Not Anagram")
+# 4. Anagram
+a,b="listen","silent"
+print("Anagram" if sorted(a)==sorted(b) else "Not Anagram")
 
 # 5. Remove duplicates
-s = "programming"
-output = ""
-for ch in s:
-    if ch not in output:
-        output += ch
-print(output)
+s="programming"; out=""
+for c in s:
+    if c not in out: out+=c
+print(out)
 
 
 # -------------------------
@@ -266,161 +233,126 @@ print(output)
 # -------------------------
 
 # 1. Rotate list
-lst = [1, 2, 3, 4, 5]
-steps = 2
-for _ in range(steps):
-    temp = lst.pop()
-    lst.insert(0, temp)
-print("Rotated list:", lst)
+lst=[1,2,3,4,5]; steps=2
+for _ in range(steps): lst.insert(0,lst.pop())
+print("Rotated:",lst)
 
 # 2. Merge sorted lists
-A = [1, 3, 5, 7]
-B = [2, 4, 6, 8]
-merged, i, j = [], 0, 0
-while i < len(A) and j < len(B):
-    if A[i] < B[j]:
-        merged.append(A[i]); i += 1
-    else:
-        merged.append(B[j]); j += 1
-merged += A[i:]
-merged += B[j:]
-print("Merged sorted list:", merged)
+A,B=[1,3,5,7],[2,4,6,8]; i=j=0; m=[]
+while i<len(A) and j<len(B):
+    if A[i]<B[j]: m.append(A[i]); i+=1
+    else: m.append(B[j]); j+=1
+m+=A[i:]; m+=B[j:]
+print("Merged:",m)
 
-# 3. Longest increasing subsequence length
-arr = [10, 22, 9, 33, 21, 50, 41, 60]
-dp = [1]*len(arr)
-for i in range(1, len(arr)):
+# 3. LIS length
+arr=[10,22,9,33,21,50,41,60]
+dp=[1]*len(arr)
+for i in range(1,len(arr)):
     for j in range(i):
-        if arr[i] > arr[j]:
-            dp[i] = max(dp[i], dp[j]+1)
-print("Length of LIS:", max(dp))
+        if arr[i]>arr[j]: dp[i]=max(dp[i],dp[j]+1)
+print("LIS:",max(dp))
 
-# 4. Find pairs with sum = target
-arr = [1, 2, 3, 4, 5, 6]
-target = 7
+# 4. Pairs with sum
+arr=[1,2,3,4,5,6]; tgt=7
 for i in range(len(arr)):
-    for j in range(i+1, len(arr)):
-        if arr[i] + arr[j] == target:
-            print("Pair:", (arr[i], arr[j]))
+    for j in range(i+1,len(arr)):
+        if arr[i]+arr[j]==tgt: print("Pair:",(arr[i],arr[j]))
 
-# 5. Remove None and duplicates
-items = [1, 2, None, 3, 2, None, 4, 1, 5]
-clean = []
-for val in items:
-    if val is not None and val not in clean:
-        clean.append(val)
-print("Cleaned list:", clean)
+# 5. Remove None + dups
+items=[1,2,None,3,2,None,4,1,5]; clean=[]
+for v in items:
+    if v and v not in clean: clean.append(v)
+print("Cleaned:",clean)
 
 
 # -------------------------
 # Tuples
 # -------------------------
 
-# 1. Swap tuples
-t1, t2 = (1, 2, 3), (4, 5, 6)
-print("Before:", t1, t2)
-t1, t2 = t2, t1
-print("After:", t1, t2)
+# 1. Swap
+t1,t2=(1,2,3),(4,5,6)
+print("Before:",t1,t2)
+t1,t2=t2,t1
+print("After:",t1,t2)
 
-# 2. Element-wise sum
-T1, T2 = (1, 2, 3), (4, 5, 6)
-summed = tuple(T1[i] + T2[i] for i in range(len(T1)))
-print("Sum:", summed)
+# 2. Element sum
+T1,T2=(1,2,3),(4,5,6)
+print(tuple(T1[i]+T2[i] for i in range(len(T1))))
 
-# 3. Convert list of tuples to dict
-pairs = [(1, "one"), (2, "two"), (3, "three")]
-d = {}
-for k, v in pairs:
-    d[k] = v
-print("Dictionary:", d)
+# 3. List of tuples to dict
+pairs=[(1,"one"),(2,"two"),(3,"three")]
+d={}
+for k,v in pairs: d[k]=v
+print(d)
 
-# 4. Count occurrences
-t = (1, 2, 3, 2, 4, 1, 2, 5)
-freqs = {}
-for x in t:
-    freqs[x] = freqs.get(x, 0) + 1
-print("Counts:", freqs)
+# 4. Count
+t=(1,2,3,2,4,1,2,5); freq={}
+for x in t: freq[x]=freq.get(x,0)+1
+print(freq)
 
-# 5. Swap min and max
-t = (10, 20, 5, 30, 15)
-lst = list(t)
-min_i, max_i = lst.index(min(lst)), lst.index(max(lst))
-lst[min_i], lst[max_i] = lst[max_i], lst[min_i]
-print("Swapped tuple:", tuple(lst))
+# 5. Swap min/max
+t=(10,20,5,30,15); l=list(t)
+mi,ma=l.index(min(l)),l.index(max(l))
+l[mi],l[ma]=l[ma],l[mi]
+print(tuple(l))
 
 
 # -------------------------
 # Sets
 # -------------------------
 
-# 1. Elements in exactly two sets
-A, B, C = {1,2,3,4}, {3,4,5,6}, {4,6,7,8}
-res = (A & B - C) | (A & C - B) | (B & C - A)
-print("Exactly two sets:", res)
+# 1. Exactly two sets
+A,B,C={1,2,3,4},{3,4,5,6},{4,6,7,8}
+print((A&B-C)|(A&C-B)|(B&C-A))
 
-# 2. Check disjoint
-A, B = {1,2,3}, {4,5,6}
-if A & B:
-    print("Not disjoint")
-else:
-    print("Disjoint")
+# 2. Disjoint
+A,B={1,2,3},{4,5,6}
+print("Not disjoint" if A&B else "Disjoint")
 
-# 3. Symmetric difference
-X, Y = {1,2,3}, {3,4,5}
-sym = (X-Y) | (Y-X)
-print("Sym diff:", sym)
+# 3. Sym diff
+X,Y={1,2,3},{3,4,5}
+print((X-Y)|(Y-X))
 
 # 4. Unique vowels
-txt = "Python Programming is Fun"
-vowels = {c for c in txt if c.lower() in "aeiou"}
-print("Vowels:", vowels)
+txt="Python Programming is Fun"
+print({c for c in txt if c.lower() in "aeiou"})
 
 # 5. Prime factors
-n = int(input("Enter a number: "))
-factors = set()
-div = 2
-num = n
-while div <= num:
-    if num % div == 0:
-        factors.add(div)
-        num //= div
-    else:
-        div += 1
-print("Prime factors:", factors)
+n=int(input("Enter num: ")); f=set(); d=2
+while d<=n:
+    if n%d==0: f.add(d); n//=d
+    else: d+=1
+print(f)
 
 
 # -------------------------
 # Dictionaries
 # -------------------------
 
-# 1. Character frequency
-s = "hello world"
-freq = {}
-for ch in s:
-    freq[ch] = freq.get(ch, 0) + 1
+# 1. Char freq
+s="hello world"; freq={}
+for c in s: freq[c]=freq.get(c,0)+1
 print(freq)
 
-# 2. Merge dicts (sum common keys)
-d1, d2 = {"a":1, "b":2}, {"b":3, "c":4}
-merged = dict(d1)
-for k, v in d2.items():
-    merged[k] = merged.get(k, 0) + v
-print(merged)
+# 2. Merge dicts
+d1,d2={"a":1,"b":2},{"b":3,"c":4}
+m=dict(d1)
+for k,v in d2.items(): m[k]=m.get(k,0)+v
+print(m)
 
 # 3. Invert dict
-d = {"a":1, "b":2}
-inv = {}
-for k, v in d.items():
-    inv[v] = k
+d={"a":1,"b":2}; inv={}
+for k,v in d.items(): inv[v]=k
 print(inv)
 
-# 4. Group words by first letter
-words = ["apple", "banana", "apricot", "blueberry"]
-groups = {}
-for word in words:
-    groups.setdefault(word[0], []).append(word)
-print(groups)
+# 4. Group words
+words=["apple","banana","apricot","blueberry"]
+g={}
+for w in words: g.setdefault(w[0],[]).append(w)
+print(g)
 
-# 5. Key with max value
-d = {"a":10, "b":50, "c":30}
-print(max(d, key=d.get))
+# 5. Key with max
+d={"a":10,"b":50,"c":30}
+print(max(d,key=d.get))
+
